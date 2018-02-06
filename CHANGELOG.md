@@ -1,0 +1,25 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.1.0] - 2018-02-06
+
+### Added
+
+- Created project.
+- Added `Filesystem` methods:
+  - `slash()` adds a directory separator between strings.
+  - `resolve()` attempts to get a nice directory path.
+  - `resolveReal()` is similar to `resolve()` but handles real, absolute paths.
+- Added `Directories` methods:
+  - `isBeneath()` compares path strings to determine parentage.
+  - `isBeneathResolve()` compare strings resolved with `resolve()` to determine
+    parentage.
+  - `isBeneathReal()` compare strings for real, absolute paths to determine
+    parentage.
+- Added tests for `Filesystem` and `Directories` methods.
