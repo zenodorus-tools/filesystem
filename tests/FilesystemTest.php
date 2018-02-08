@@ -46,7 +46,16 @@ class FilesystemTest extends TestCase
             'files%1$sstar%1$swars%1$s..%1$strek',
             DIRECTORY_SEPARATOR
         );
-        $this->assertEquals($expected, Filesystem::resolveReal($path, __DIR__));
+        $this->assertEquals(
+            $expected,
+            Filesystem::resolveReal($path, __DIR__),
+            sprintf(
+                'Not matching! expected: %s path: %s, __DIR__: %s',
+                $expected,
+                $path,
+                __DIR__
+            )
+        );
     }
 
     public function testResolveRealFull()
@@ -61,6 +70,15 @@ class FilesystemTest extends TestCase
             DIRECTORY_SEPARATOR,
             __DIR__
         );
-        $this->assertEquals($expected, Filesystem::resolveReal($path));
+        $this->assertEquals(
+            $expected,
+            Filesystem::resolveReal($path),
+            sprintf(
+                'Not matching! expected: %s path: %s, __DIR__: %s',
+                $expected,
+                $path,
+                __DIR__
+            )
+        );
     }
 }
