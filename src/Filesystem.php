@@ -37,11 +37,22 @@ class Filesystem
             $prepend = array_shift($sections);
             $compiled = static::slash($append, $prepend);
 
-            return call_user_func_array(
-                __METHOD__,
-                array_merge([$compiled], $sections)
-            );
+            return static::slashAr(array_merge([$compiled], $sections));
         }
+    }
+
+    /**
+     * Run `Filesystem::slash()` on the contents of an array.
+     *
+     * This is for situations where it is more convenient to pass your list
+     * of items to be slashed via an array rather than as separate args.
+     *
+     * @param array $array
+     * @return void
+     */
+    public static function slashAr(array $array)
+    {
+        return call_user_func_array(__CLASS__.'::slash', $array);
     }
 
     /**

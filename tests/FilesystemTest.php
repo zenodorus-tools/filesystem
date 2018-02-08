@@ -28,6 +28,15 @@ class FilesystemTest extends TestCase
             Filesystem::slash('star', 'trek', 'enterprise')
         );
     }
+    
+    public function testSlashAr()
+    {
+        $expected = sprintf('star%1$strek%1$senterprise', DIRECTORY_SEPARATOR);
+        $this->assertEquals(
+            $expected,
+            Filesystem::slashAr(['star', 'trek', 'enterprise'])
+        );
+    }
 
     public function testResolve()
     {

@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.1.2] - 2018-02-07
+## [0.1.4] - 2018-02-08
+
+### Added
+
+- `Filesystem::slashAr()` which passed array contents to `Filesystem::slash()`
+  as individual arguments.
+
+## [0.1.3] - 2018-02-08
 
 ### Added
 
