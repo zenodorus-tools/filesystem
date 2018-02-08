@@ -12,6 +12,15 @@ class FilesystemTest extends TestCase
         $this->assertEquals($expected, Filesystem::slash($prepend, $append));
     }
 
+    public function testSlashMultiple()
+    {
+        $expected = sprintf('star%1$strek%1$senterprise', DIRECTORY_SEPARATOR);
+        $this->assertEquals(
+            $expected,
+            Filesystem::slash('star', 'trek', 'enterprise')
+        );
+    }
+
     public function testResolve()
     {
         $expected = sprintf('star%1$strek', DIRECTORY_SEPARATOR);

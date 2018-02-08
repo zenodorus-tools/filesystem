@@ -3,20 +3,48 @@
 class Filesystem
 {
     /**
-     * Combine two strings with a directory separator.
+     * Combine strings with a directory separator.
+     * 
+     * Accepts any number of strings.
      *
      * This is purely string manipulation: Although this function will likely
      * be used for paths, it does no path validation of any sort.
      *
-     * @param string $prepend
-     * @param string $append
+     * @param string $sections      All strings you wish to concatenate.
      * @return string
      */
-    public static function slash(string $prepend, string $append)
+    public static function slash(string ...$sections)
     {
-        $prepend = rtrim(trim($prepend), '/\\');
-        $append = ltrim(trim($append), '/\\');
-        return sprintf("%s%s%s", $prepend, DIRECTORY_SEPARATOR, $append);
+        $count = count($sections);
+
+        // If we only got a single section, return it.
+        if (1 === $count) {
+            return $section[0];
+        }
+        // Somehow we got NO sections, so return null.
+        elseif (0 >= $count || empty($sections)) {
+            return null;
+        }
+        // Only two sections; concatenated and return!
+        elseif (2 === $count) {
+            return sprintf(
+                "%s%s%s",
+                rtrim(trim($sections[0]), '/\\'),
+                DIRECTORY_SEPARATOR,
+                ltrim(trim($sections[1]), '/\\')
+            );
+        }
+        // Multiple sections, so let's get recursive!
+        else {
+            $append = array_shift($sections);
+            $prepend = array_shift($sections);
+            $compiled = static::slash($append, $prepend);
+
+            return call_user_func_array(
+                __METHOD__,
+                array_merge([$compiled], $sections)
+            );
+        }
     }
 
     /**
