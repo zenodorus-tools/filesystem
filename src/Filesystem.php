@@ -19,7 +19,7 @@ class Filesystem
 
         // If we only got a single section, return it.
         if (1 === $count) {
-            return $section[0];
+            return $sections[0];
         }
         // Somehow we got NO sections, so return null.
         elseif (0 >= $count || empty($sections)) {
