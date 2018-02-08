@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.1] - 2018-02-07
+
+### Changed
+
+- `Filesystem::slash()` now accepts an arbitrary number of arguments, and
+  contactenates them all.
+- `Filesystem::resolveReal()` uses `file_exists()` instead of `realpath()`.
+
+### Added
+
+- Tests for longer list of arguments to `Filesystem::slash()`.
+
 ## [0.1.0] - 2018-02-06
 
 ### Added
