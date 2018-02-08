@@ -120,6 +120,6 @@ class Filesystem
             return realpath(Filesystem::resolve($fullPath));
         }
 
-        return false;
+        return null;
     }
 }
