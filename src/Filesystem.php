@@ -96,9 +96,14 @@ class Filesystem
      * A wrapper for `Filesystem::resolve()` that returns real paths. It will
      * fully evaluate symbolic links, so they will return their targets.
      *
-     * If a directory/file does not exist, this method returns `false`.
+     * If a directory/file does not exist, this method returns `null`.
+     * 
+     * In certain situations, this may return `null` for files that are,
+     * technically accessible (see php.net documentation for `file_exists()`).
      *
      * This will always return an absolute path.
+     * 
+     * @see https://secure.php.net/manual/en/function.file-exists.php
      *
      * @param string $path
      * @return bool|string      Real path if it exists, bool false otherwise.
@@ -110,14 +115,15 @@ class Filesystem
          * Path includes full (abosolute) path, which doesn't need
          * working directory.
          */
-            && $real = realpath(Filesystem::resolve($path))) {
+            && file_exists($real = Filesystem::resolve($path))) {
             return $real;
         } elseif (null !== $workingDir) {
         /**
          * ...Otherwise, add $workingDir before trying to find it.
          */
             $fullPath = Filesystem::slash($workingDir, $path);
-            return realpath(Filesystem::resolve($fullPath));
+            $real = Filesystem::resolve($fullPath);
+            return file_exists($real) ? $real : null;
         }
 
         return null;

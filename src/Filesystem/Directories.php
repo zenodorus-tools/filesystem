@@ -55,8 +55,11 @@ class Directories
     /**
      * Determine if a real path is beneath another path.
      *
-     * This still compares stringes, but it does so on paths that have been
-     * run through `realpath()` so in theory it should be "real" information.
+     * The files/directories passed to this method are checked to make sure
+     * they exists, so the results returned by this method can be trusted.
+     * 
+     * @see Filesystem::resolveReal()
+     * @see Filesystem\Directories::isBeneath()
      *
      * @param string $child
      * @param string $parent

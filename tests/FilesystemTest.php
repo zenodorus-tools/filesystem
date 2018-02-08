@@ -50,9 +50,12 @@ class FilesystemTest extends TestCase
             $expected,
             Filesystem::resolveReal($path, __DIR__),
             sprintf(
-                'Not matching! expected: %s path: %s, __DIR__: %s',
+                'Not matching! %sexpected: %s %spath: %s, %s__DIR__: %s',
+                PHP_EOL,
                 $expected,
+                PHP_EOL,
                 $path,
+                PHP_EOL,
                 __DIR__
             )
         );
@@ -74,9 +77,12 @@ class FilesystemTest extends TestCase
             $expected,
             Filesystem::resolveReal($path),
             sprintf(
-                'Not matching! expected: %s path: %s, __DIR__: %s',
+                'Not matching! %sexpected: %s %spath: %s, %s__DIR__: %s',
+                PHP_EOL,
                 $expected,
+                PHP_EOL,
                 $path,
+                PHP_EOL,
                 __DIR__
             )
         );
