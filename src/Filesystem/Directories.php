@@ -57,7 +57,7 @@ class Directories
      *
      * The files/directories passed to this method are checked to make sure
      * they exists, so the results returned by this method can be trusted.
-     * 
+     *
      * @see Filesystem::resolveReal()
      * @see Filesystem\Directories::isBeneath()
      *

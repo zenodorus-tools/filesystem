@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.2] - 2018-02-07
+
+### Added
+
+- `Filesystem::recursiveRemove()` which removed everything in a directory with
+  one command.
+
+## [0.1.2] - 2018-02-07
+
+### Fixed
+
+- Typo in `Filesystem::slash()`.
+
 ## [0.1.1] - 2018-02-07
 
 ### Changed

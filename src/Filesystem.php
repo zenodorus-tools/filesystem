@@ -4,7 +4,7 @@ class Filesystem
 {
     /**
      * Combine strings with a directory separator.
-     * 
+     *
      * Accepts any number of strings.
      *
      * This is purely string manipulation: Although this function will likely
@@ -20,12 +20,10 @@ class Filesystem
         // If we only got a single section, return it.
         if (1 === $count) {
             return $sections[0];
-        }
-        // Somehow we got NO sections, so return null.
+        } // Somehow we got NO sections, so return null.
         elseif (0 >= $count || empty($sections)) {
             return null;
-        }
-        // Only two sections; concatenated and return!
+        } // Only two sections; concatenated and return!
         elseif (2 === $count) {
             return sprintf(
                 "%s%s%s",
@@ -33,8 +31,7 @@ class Filesystem
                 DIRECTORY_SEPARATOR,
                 ltrim(trim($sections[1]), '/\\')
             );
-        }
-        // Multiple sections, so let's get recursive!
+        } // Multiple sections, so let's get recursive!
         else {
             $append = array_shift($sections);
             $prepend = array_shift($sections);
@@ -97,12 +94,12 @@ class Filesystem
      * fully evaluate symbolic links, so they will return their targets.
      *
      * If a directory/file does not exist, this method returns `null`.
-     * 
+     *
      * In certain situations, this may return `null` for files that are,
      * technically accessible (see php.net documentation for `file_exists()`).
      *
      * This will always return an absolute path.
-     * 
+     *
      * @see https://secure.php.net/manual/en/function.file-exists.php
      *
      * @param string $path
@@ -127,5 +124,30 @@ class Filesystem
         }
 
         return null;
+    }
+
+    /**
+     * Removes all files and directories in a directory. BE CAREFUL!
+     *
+     * By default, this includes directory specified in `$dir`. Pass `false` to
+     * the second argument to disable this behavior and leave `$dir` in place.
+     *
+     * @see https://stackoverflow.com/a/24563703
+     *
+     * @param string $dir
+     * @param boolean $complete
+     * @return boolean
+     */
+    public static function recursiveRemove(string $dir, bool $complete = true)
+    {
+        $di = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS);
+        $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($ri as $file) {
+            $file->isDir() ?  rmdir($file) : unlink($file);
+        }
+        if ($complete) {
+            rmdir($dir);
+        }
+        return true;
     }
 }

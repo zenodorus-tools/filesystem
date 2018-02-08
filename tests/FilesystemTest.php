@@ -95,4 +95,51 @@ class FilesystemTest extends TestCase
             )
         );
     }
+
+    public function testRecursiveRemove()
+    {
+        $dir = Filesystem::slash(__DIR__, 'some', 'where');
+        $file = Filesystem::slash(
+            __DIR__,
+            'some',
+            'where',
+            'out.there'
+        );
+        mkdir($dir, 0777, true);
+        touch($file);
+        $this->assertFileExists($file, 'File was not created.');
+        Filesystem::recursiveRemove(
+            Filesystem::slash(__DIR__, 'some')
+        );
+        $this->assertFileNotExists(
+            $file,
+            'Files & directories were not deleted.'
+        );
+    }
+
+    public function testRecursiveRemoveLeave()
+    {
+        $dir = Filesystem::slash(__DIR__, 'some', 'where');
+        $file = Filesystem::slash(
+            __DIR__,
+            'some',
+            'where',
+            'out.there'
+        );
+        mkdir($dir, 0777, true);
+        touch($file);
+        $this->assertFileExists($file, 'File was not created.');
+        Filesystem::recursiveRemove(
+            Filesystem::slash(__DIR__, 'some'),
+            false
+        );
+        $this->assertFileNotExists(
+            $file,
+            'Files & directories were not deleted.'
+        );
+        $this->assertFileExists(
+            Filesystem::slash(__DIR__, 'some')
+        );
+        rmdir(Filesystem::slash(__DIR__, 'some'));
+    }
 }
