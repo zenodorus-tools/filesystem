@@ -69,6 +69,13 @@ class FilesystemTest extends TestCase
         $this->assertEquals($expected, Filesystem::resolve($path));
     }
 
+    public function testResolveImpliedAbsolute()
+    {
+        $expected = sprintf('%1$sstar%1$strek', DIRECTORY_SEPARATOR);
+        $path = sprintf('%1$sstar%1$swars%1$s..%1$strek', DIRECTORY_SEPARATOR);
+        $this->assertEquals($expected, Filesystem::resolve($path));
+    }
+
     public function testResolveAbsolute()
     {
         $expected = sprintf('%1$sstar%1$strek', DIRECTORY_SEPARATOR);
