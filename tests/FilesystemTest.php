@@ -11,6 +11,30 @@ class FilesystemTest extends TestCase
         $append = sprintf('%1$senterprise', DIRECTORY_SEPARATOR);
         $this->assertEquals($expected, Filesystem::slash($prepend, $append));
     }
+    
+    public function testSlashLeading()
+    {
+        $expected = sprintf('%1$sstar%1$strek%1$senterprise', DIRECTORY_SEPARATOR);
+        $prepend = sprintf('%1$sstar%1$strek%1$s', DIRECTORY_SEPARATOR);
+        $append = sprintf('%1$senterprise', DIRECTORY_SEPARATOR);
+        $this->assertEquals($expected, Filesystem::slash($prepend, $append));
+    }
+    
+    public function testSlashTrailing()
+    {
+        $expected = sprintf('star%1$strek%1$senterprise%1$s', DIRECTORY_SEPARATOR);
+        $prepend = sprintf('star%1$strek%1$s', DIRECTORY_SEPARATOR);
+        $append = sprintf('%1$senterprise%1$s', DIRECTORY_SEPARATOR);
+        $this->assertEquals($expected, Filesystem::slash($prepend, $append));
+    }
+    
+    public function testSlashMultipleRemove()
+    {
+        $expected = sprintf('star%1$strek%1$senterprise%1$s', DIRECTORY_SEPARATOR);
+        $prepend = sprintf('star%1$strek%1$s%1$s', DIRECTORY_SEPARATOR);
+        $append = sprintf('%1$senterprise%1$s', DIRECTORY_SEPARATOR);
+        $this->assertEquals($expected, Filesystem::slash($prepend, $append));
+    }
 
     public function testSlashSingle()
     {

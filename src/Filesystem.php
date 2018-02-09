@@ -25,11 +25,17 @@ class Filesystem
             return null;
         } // Only two sections; concatenated and return!
         elseif (2 === $count) {
-            return sprintf(
+            $compiled = sprintf(
                 "%s%s%s",
-                rtrim(trim($sections[0]), '/\\'),
+                trim($sections[0]),
                 DIRECTORY_SEPARATOR,
-                ltrim(trim($sections[1]), '/\\')
+                trim($sections[1])
+            );
+            // Check for double-slashes
+            return preg_replace(
+                '/\\\\{2,}|\/{2,}/',
+                DIRECTORY_SEPARATOR,
+                $compiled
             );
         } // Multiple sections, so let's get recursive!
         else {
