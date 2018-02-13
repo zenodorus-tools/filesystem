@@ -45,7 +45,7 @@ class Directories
             'parent' => $parent,
         ];
 
-        array_walk($args, function (&$dir, $name) {
+        array_walk($args, function (&$dir) {
             $dir = Filesystem::resolve($dir);
         });
 

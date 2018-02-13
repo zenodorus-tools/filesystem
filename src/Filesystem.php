@@ -10,7 +10,7 @@ class Filesystem
      * This is purely string manipulation: Although this function will likely
      * be used for paths, it does no path validation of any sort.
      *
-     * @param string $sections      All strings you wish to concatenate.
+     * @param string[] ...$sections All strings you wish to concatenate.
      * @return string
      */
     public static function slash(string ...$sections)
@@ -54,7 +54,7 @@ class Filesystem
      * of items to be slashed via an array rather than as separate args.
      *
      * @param array $array
-     * @return void
+     * @return string
      */
     public static function slashAr(array $array)
     {
@@ -78,7 +78,7 @@ class Filesystem
      * @param string $path
      * @param boolean $absolute     Set to `true` to prepend a directory
      *                              separator.
-     * @return void
+     * @return string
      */
     public static function resolve(string $path, bool $absolute = false)
     {
@@ -87,6 +87,7 @@ class Filesystem
             // This was an absolute string, so keep it that way.
             $absolute = true;
         }
+        /** @noinspection SpellCheckingInspection */
         $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
         $absolutes = array();
         foreach ($parts as $part) {
@@ -124,13 +125,14 @@ class Filesystem
      * @see https://secure.php.net/manual/en/function.file-exists.php
      *
      * @param string $path
-     * @return bool|string      Real path if it exists, bool false otherwise.
+     * @param string|null $workingDir   The directory to use as the base.
+     * @return bool|string              Real path if it exists, bool false otherwise.
      */
     public static function resolveReal(string $path, string $workingDir = null)
     {
         if (null === $workingDir
         /**
-         * Path includes full (abosolute) path, which doesn't need
+         * Path includes full (absolute) path, which doesn't need
          * working directory.
          */
             && file_exists($real = Filesystem::resolve($path))) {
