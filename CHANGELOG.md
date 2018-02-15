@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.8] - 2018-02-15
+
+### Added
+
+- `Filesystem::normalize()` which normalizes path string to use the correct directory
+   separator for the environment.
+
+## [0.1.7] - 2018-02-13
+
+## Fixed
+
+- Numerous documentation mistakes.
+- Adjusted behavior of `isBeneathResolve()` to be a bit cleaner.
+
 ## [0.1.6] - 2018-02-08
 
 ### Fixed
@@ -20,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `Filesystem::slash()` will now respect trailing/leading slashes, and will
   remove any double slashes that are created by it or fed into it.
+
 ## [0.1.4] - 2018-02-08
 
 ### Added

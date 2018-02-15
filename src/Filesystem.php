@@ -93,7 +93,7 @@ class Filesystem
      */
     public static function resolve(string $path, bool $absolute = false)
     {
-        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        $path = static::normalize($path);
         if (strpos($path, DIRECTORY_SEPARATOR) === 0) {
             // This was an absolute string, so keep it that way.
             $absolute = true;
