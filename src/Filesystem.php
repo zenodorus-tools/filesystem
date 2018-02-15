@@ -62,6 +62,17 @@ class Filesystem
     }
 
     /**
+     * Normalize slashes for the current platform.
+     *
+     * @param string $path
+     * @return string
+     */
+    public static function normalize(string $path)
+    {
+        return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+    }
+
+    /**
      * Naively resolve paths.
      *
      * This attempts to discern the correct directory path from something that

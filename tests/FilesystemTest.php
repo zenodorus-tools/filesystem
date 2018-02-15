@@ -62,6 +62,13 @@ class FilesystemTest extends TestCase
         );
     }
 
+    public function testNormalize()
+    {
+        $path = "/something/is/in\here.file";
+        $expected = sprintf('%1$ssomething%1$sis%1$sin%1$shere.file', DIRECTORY_SEPARATOR);
+        $this->assertEquals($expected, Filesystem::normalize($path));
+    }
+
     public function testResolve()
     {
         $expected = sprintf('star%1$strek', DIRECTORY_SEPARATOR);
