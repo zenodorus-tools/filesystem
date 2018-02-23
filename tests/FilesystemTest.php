@@ -1,9 +1,47 @@
 <?php namespace Zenodorus;
 
 use \PHPUnit\Framework\TestCase;
+use \Symfony\Component\Filesystem\Filesystem as SymFile;
 
 class FilesystemTest extends TestCase
 {
+    const TESTDIRS = [
+        'files/star',
+        'files/star/wars',
+        'files/star/trek',
+        'files/magic',
+    ];
+
+    const TESTFILES = [
+        'files/star/wars/millenium.falcon',
+        'files/star/trek/enterprise',
+        'files/star/gate',
+        'files/magic/hands',
+        'files/magic/mike'
+    ];
+
+    protected $dir;
+
+    protected function setUp()
+    {
+        $fs = new SymFile();
+
+        $this->dir = dirname(__FILE__);
+        $root = $this->dir;
+
+        $fs->mkdir(array_map(function($dir) use ($root) {
+            return $root . DIRECTORY_SEPARATOR . $dir;
+        }, $this::TESTDIRS));
+        $fs->touch(array_map(function($file) use ($root) {
+            return $root . DIRECTORY_SEPARATOR . $file;
+        }, $this::TESTFILES));
+    }
+
+    protected function tearDown()
+    {
+        Filesystem::recursiveRemove(Filesystem::slash($this->dir, 'files'));
+    }
+
     public function testSlash()
     {
         $expected = sprintf('star%1$strek%1$senterprise', DIRECTORY_SEPARATOR);
@@ -95,7 +133,7 @@ class FilesystemTest extends TestCase
         $expected = sprintf(
             '%2$s%1$sfiles%1$sstar%1$strek',
             DIRECTORY_SEPARATOR,
-            __DIR__
+            $this->dir
         );
         $path = sprintf(
             'files%1$sstar%1$swars%1$s..%1$strek',
@@ -103,15 +141,15 @@ class FilesystemTest extends TestCase
         );
         $this->assertEquals(
             $expected,
-            Filesystem::resolveReal($path, __DIR__),
+            Filesystem::resolveReal($path, $this->dir),
             sprintf(
-                'Not matching! %sexpected: %s %spath: %s, %s__DIR__: %s',
+                'Not matching! %sexpected: %s %spath: %s, %s$this->dir: %s',
                 PHP_EOL,
                 $expected,
                 PHP_EOL,
                 $path,
                 PHP_EOL,
-                __DIR__
+                $this->dir
             )
         );
     }
@@ -121,33 +159,33 @@ class FilesystemTest extends TestCase
         $expected = sprintf(
             '%2$s%1$sfiles%1$sstar%1$strek',
             DIRECTORY_SEPARATOR,
-            __DIR__
+            $this->dir
         );
         $path = sprintf(
             '%2$s%1$sfiles%1$sstar%1$swars%1$s..%1$strek',
             DIRECTORY_SEPARATOR,
-            __DIR__
+            $this->dir
         );
         $this->assertEquals(
             $expected,
             Filesystem::resolveReal($path),
             sprintf(
-                'Not matching! %sexpected: %s %spath: %s, %s__DIR__: %s',
+                'Not matching! %sexpected: %s %spath: %s, %s$this->dir: %s',
                 PHP_EOL,
                 $expected,
                 PHP_EOL,
                 $path,
                 PHP_EOL,
-                __DIR__
+                $this->dir
             )
         );
     }
 
     public function testRecursiveRemove()
     {
-        $dir = Filesystem::slash(__DIR__, 'some', 'where');
+        $dir = Filesystem::slash($this->dir, 'some', 'where');
         $file = Filesystem::slash(
-            __DIR__,
+            $this->dir,
             'some',
             'where',
             'out.there'
@@ -156,7 +194,7 @@ class FilesystemTest extends TestCase
         touch($file);
         $this->assertFileExists($file, 'File was not created.');
         Filesystem::recursiveRemove(
-            Filesystem::slash(__DIR__, 'some')
+            Filesystem::slash($this->dir, 'some')
         );
         $this->assertFileNotExists(
             $file,
@@ -166,9 +204,9 @@ class FilesystemTest extends TestCase
 
     public function testRecursiveRemoveLeave()
     {
-        $dir = Filesystem::slash(__DIR__, 'some', 'where');
+        $dir = Filesystem::slash($this->dir, 'some', 'where');
         $file = Filesystem::slash(
-            __DIR__,
+            $this->dir,
             'some',
             'where',
             'out.there'
@@ -177,7 +215,7 @@ class FilesystemTest extends TestCase
         touch($file);
         $this->assertFileExists($file, 'File was not created.');
         Filesystem::recursiveRemove(
-            Filesystem::slash(__DIR__, 'some'),
+            Filesystem::slash($this->dir, 'some'),
             false
         );
         $this->assertFileNotExists(
@@ -185,8 +223,8 @@ class FilesystemTest extends TestCase
             'Files & directories were not deleted.'
         );
         $this->assertFileExists(
-            Filesystem::slash(__DIR__, 'some')
+            Filesystem::slash($this->dir, 'some')
         );
-        rmdir(Filesystem::slash(__DIR__, 'some'));
+        rmdir(Filesystem::slash($this->dir, 'some'));
     }
 }
